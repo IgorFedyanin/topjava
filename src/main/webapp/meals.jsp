@@ -20,6 +20,10 @@
     </style>
 </head>
 <body>
+<h3><a href="index.html">Home</a></h3>
+<hr>
+<h4>Meals</h4>
+<p><a href="meals?action=edit">Add Meal</a></p>
 <table>
     <tr align="center">
         <td>Date</td>
@@ -30,49 +34,24 @@
     </tr>
     <jsp:useBean id="mealsTo" scope="request" type="java.util.List"/>
     <c:forEach var="mealTo" items="${mealsTo}">
-        <c:choose>
-            <c:when test="${mealTo.excess == true}">
-                <tr style="color: red">
-                    <td align="center">
-                        <fmt:parseDate value="${ mealTo.dateTime }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-                        <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${ parsedDateTime }" />
-                    </td>
-                    <td>
-                            ${mealTo.description}
-                    </td>
-                    <td>
-                            ${mealTo.calories}
-                    </td>
-                    <td align="center">
-                        <a href="">Update</a>
-                    </td>
-                    <td align="center">
-                        <a href="">Delete</a>
-                    </td>
-                </tr>
-            </c:when>
-            <c:when test="${mealTo.excess ==false}">
-                <tr style="color: green">
-                    <td align="center">
-                        <fmt:parseDate value="${ mealTo.dateTime }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-                        <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${ parsedDateTime }" />
-                    </td>
-                    <td>
-                            ${mealTo.description}
-                    </td>
-                    <td>
-                            ${mealTo.calories}
-                    </td>
-                    <td align="center">
-                        <a href="">Update</a>
-                    </td>
-                    <td align="center">
-                        <a href="">Delete</a>
-                    </td>
-                </tr>
-            </c:when>
-        </c:choose>
-
+        <tr style="color: ${mealTo.excess? "red": "green"}">
+            <td align="center">
+                <fmt:parseDate value="${ mealTo.dateTime }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+                <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${ parsedDateTime }" />
+            </td>
+            <td>
+                    ${mealTo.description}
+            </td>
+            <td>
+                    ${mealTo.calories}
+            </td>
+            <td align="center">
+                <a href="meals?action=edit&mealId=<c:out value="${mealTo.id}"/>">Update</a>
+            </td>
+            <td align="center">
+                <a href="meals?action=delete&mealId=<c:out value="${mealTo.id}"/>">Delete</a>
+            </td>
+        </tr>
     </c:forEach>
 
 </table>
