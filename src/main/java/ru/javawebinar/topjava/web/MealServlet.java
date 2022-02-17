@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Objects;
@@ -58,8 +60,20 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        String userId = request.getParameter("userId");
+
+        if (request.getParameter("userId") != null) SecurityUtil.setAuthUserId(Integer.parseInt(userId));
 
         switch (action == null ? "all" : action) {
+            case "filter":
+                log.info("get filtered meals");
+                //log.info(request.getParameter("startDate") + request.getParameter("endDate") + request.getParameter("startTime") + request.getParameter("endTime"));
+                LocalDate startDate = Objects.equals(request.getParameter("startDate"), "") ? null : LocalDate.parse(request.getParameter("startDate"));
+                LocalDate endDate = Objects.equals(request.getParameter("endDate"), "")? null : LocalDate.parse(request.getParameter("endDate"));
+                LocalTime startTime = Objects.equals(request.getParameter("startTime"), "")? null : LocalTime.parse(request.getParameter("startTime"));
+                LocalTime endTime = Objects.equals(request.getParameter("endTime"), "")? null : LocalTime.parse(request.getParameter("endTime"));
+                request.setAttribute("meals", mealRestController.getFilteredAll(startDate, endDate, startTime, endTime));
+                request.getRequestDispatcher("/meals.jsp").forward(request, response);
             case "delete":
                 int id = getId(request);
                 log.info("Delete {}", id);

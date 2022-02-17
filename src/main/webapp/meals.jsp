@@ -23,6 +23,35 @@
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
+    <section>
+        <div>
+            <form method="get" action="meals">
+                <input type="hidden" name="action" value="filter">
+                <div>
+                    <div>
+                        <label id="startDate">От даты (включая)</label>
+                        <input name="startDate" autocomplete="off" type="date">
+                    </div>
+                    <div>
+                        <label id="endDate">До даты (включая)</label>
+                        <input name="endDate" autocomplete="off" type="date">
+                    </div>
+                    <div>
+                        <label id="startTime">От времени (включая)</label>
+                        <input name="startTime" autocomplete="off" type="time">
+                    </div>
+                    <div>
+                        <label id="endTime">До времени (исключая)</label>
+                        <input name="endTime" autocomplete="off" type="time">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit">Отфильтровать</button>
+                    <button onclick="window.history.back()" type="button">Отменить</button>
+                </div>
+            </form>
+        </div>
+    </section>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
