@@ -23,6 +23,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -80,6 +81,18 @@ public abstract class BaseServiceTest {
                 "\n---------------------------------" +
                 results +
                 "\n---------------------------------");
+    }
+
+    @Test
+    public void getMealWithUser(){
+        Meal meal = mealService.getWithUser(MEAL1_ID, USER_ID);
+        USER_MATCHER.assertMatch(meal.getUser(), user);
+    }
+
+    @Test
+    public void getUserWithMeals(){
+        List<Meal> meals = userService.getUserWithMeals(admin.id()).meals;
+        MEAL_MATCHER.assertMatch(meals, adminMeal2, adminMeal1);
     }
 
     @Test
