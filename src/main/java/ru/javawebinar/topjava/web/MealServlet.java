@@ -51,6 +51,7 @@ public class MealServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         switch (action == null ? "all" : action) {
+
             case "delete" -> {
                 int id = getId(request);
                 mealController.delete(id);
